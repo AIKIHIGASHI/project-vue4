@@ -1,8 +1,33 @@
 <template>
   <div>
-    Hello World
+    <Header></Header>
+    <router-view></router-view>
+    <Footer></Footer>
   </div>
 </template>
 
+<script>
+import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
+export default {
+  components: {
+    Header,
+    Footer
+  }
+}
+</script>
+
 <style lang="scss">
+
+  #main {
+    margin: 40px;
+    text-align: center;
+    table {
+        margin: 30px auto;
+        th {
+          text-align: center;
+        }
+      }
+  } 
+
 </style>
