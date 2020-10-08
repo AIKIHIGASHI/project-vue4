@@ -2,7 +2,7 @@
   <div class="home">
     <div id="main">
       <h1 class="is-size-3">新規登録画面</h1>
-      <div class="has-text-danger">{{error}}</div>
+      <div class="has-text-danger">{{ error }}</div>
         <table>
           <tbody>
             <tr>
@@ -19,7 +19,7 @@
             </tr>
           </tbody>
         </table>
-      <button class="button is-info is-outlined" @click='signUp()'>新規登録</button>
+      <button class="button is-info is-outlined" @click="signUp()">新規登録</button>
       <div><router-link class="has-text-info" to="/">ログインはこちらから</router-link></div>
     </div>
   </div>
