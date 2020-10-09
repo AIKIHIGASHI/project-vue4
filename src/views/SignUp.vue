@@ -25,33 +25,25 @@
   </div>
 </template>
 <script>
-import firebase from 'firebase/app'
-import 'firebase/firestore'
-import 'firebase/auth'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
       userName: '',
       email: '',
       password: '',
-      error: ''
     }
   },
+  computed: {
+    ...mapGetters(['error'])
+  },
   methods: {
+    ...mapActions(['createUser']),
     signUp() {
-      if (!this.userName) {
-        this.error = 'The userName is blank';
-        return;
-      }
-      this.createUser();
-    },
-    createUser() {
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-      .then(result => {
-        result.user.updateProfile({displayName: this.userName});
-      })
-      .catch(error => {
-        this.error = error.message;
+      this.createUser({
+        userName: this.userName, 
+        email: this.email, 
+        password: this.password
       });
     }
   }
