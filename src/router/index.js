@@ -1,15 +1,18 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Router from 'vue-router'
+import SignUp from '../views/SignUp.vue'
 
+Vue.use(Router)
 
-Vue.use(VueRouter)
-
-const routes = []
-
-const router = new VueRouter({
+export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes: [
+    {
+      path: '/',
+      name: 'signup',
+      component: SignUp
+    }
+  ]
 })
 
-export default router
