@@ -20,7 +20,7 @@
           </tbody>
         </table>
       <button class="button is-info is-outlined" @click="signUp({userName, email, password})">新規登録</button>
-      <div><router-link class="has-text-info" to="/">ログインはこちらから</router-link></div>
+      <div><router-link class="has-text-info" to="/login">ログインはこちらから</router-link></div>
     </div>
   </div>
 </template>

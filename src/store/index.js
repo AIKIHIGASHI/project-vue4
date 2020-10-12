@@ -32,5 +32,16 @@ export default new Vuex.Store({
         commit('errorMessage', error);
       });
     }
+    ,
+    login({ commit }, { email, password }) {
+      firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(() => {
+        // 確認用
+        console.log('ログイン成功しました');
+      })
+      .catch(error => {
+        commit('errorMessage', error)
+      });
+    },
   }
 })
