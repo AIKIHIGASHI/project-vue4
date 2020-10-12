@@ -9,14 +9,14 @@ import 'firebase/auth'
 Vue.config.productionTip = false
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyC0M6c3UL8wORLCYOEEH9U47HeN057feQ0',
-  authDomain: 'project-vue4.firebaseapp.com',
-  databaseURL: 'https://project-vue4.firebaseio.com',
-  projectId: 'project-vue4',
-  storageBucket: 'project-vue4.appspot.com',
-  messagingSenderId: '316057063276',
-  appId: '1:316057063276:web:19028f49b5627aef2c6d49',
-  measurementId: 'G-G94WGWH9GV'
+  apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+  authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.VUE_APP_FIREBASE_DATABASE_URL,
+  projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.VUE_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VUE_APP_FIREBASE_APP_ID,
+  measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENT_ID
 };
 firebase.initializeApp(firebaseConfig);
 
