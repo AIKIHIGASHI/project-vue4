@@ -19,7 +19,7 @@
             </tr>
           </tbody>
         </table>
-      <button class="button is-info is-outlined" @click="signUp()">新規登録</button>
+      <button class="button is-info is-outlined" @click="signUp({userName, email, password})">新規登録</button>
       <div><router-link class="has-text-info" to="/">ログインはこちらから</router-link></div>
     </div>
   </div>
@@ -38,14 +38,7 @@ export default {
     ...mapGetters(['error'])
   },
   methods: {
-    ...mapActions(['createUser']),
-    signUp() {
-      this.createUser({
-        userName: this.userName, 
-        email: this.email, 
-        password: this.password
-      });
-    }
+    ...mapActions(['signUp']),
   }
 }
 </script>

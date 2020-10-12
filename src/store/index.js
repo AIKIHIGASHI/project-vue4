@@ -12,16 +12,16 @@ export default new Vuex.Store({
     error: state => state.error
   },
   mutations: {
-    createUser(state, error) {
+    errorMessage(state, error) {
       state.error = error;
     } 
   },
   actions: {
-    createUser({ commit }, {userName, email, password}) {
+    signUp({ commit }, {userName, email, password}) {
       let error = '';
       if (!userName) {
         error = 'The userName is blank';
-        commit('createUser', error);
+        commit('errorMessage', error);
         return;
       }
       firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -29,8 +29,7 @@ export default new Vuex.Store({
         result.user.updateProfile({displayName: userName});
       })
       .catch(error => {
-        error = error.message;
-        commit('createUser', error);
+        commit('errorMessage', error);
       });
     }
   }
