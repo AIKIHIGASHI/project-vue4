@@ -18,17 +18,14 @@ export default new Vuex.Store({
   },
   actions: {
     signUp({ commit }, { userName, email, password }) {
-      let error = '';
       if (!userName) {
-        error = 'The userName is blank';
-        commit('errorMessage', error);
+        commit('errorMessage', 'The userName is blank');
         return;
       }
       firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(result => {
         result.user.updateProfile({displayName: userName});
-        error = '';
-        commit('errorMessage', error);
+        commit('errorMessage', '');
       })
       .catch(error => {
         commit('errorMessage', error);
@@ -39,8 +36,7 @@ export default new Vuex.Store({
       .then(() => {
         // 確認用
         console.log('ログイン成功しました');
-        let error = '';
-        commit('errorMessage', error);
+        commit('errorMessage', '');
       })
       .catch(error => {
         commit('errorMessage', error);
