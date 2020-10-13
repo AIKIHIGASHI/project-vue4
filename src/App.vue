@@ -9,22 +9,17 @@
 <script>
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import { mapActions} from 'vuex'
 export default {
   components: {
     Header,
     Footer
   },
-  created() {
-    // ユーザーの確認
-    firebase.auth().onAuthStateChanged(user => {
-      if (!user) {
-        console.log('ユーザーはいません');
-        return;
-      }
-      console.log(user);
-    });
+  async created() {
+    await this.setLoginUser();
+  },
+  methods: {
+    ...mapActions(['setLoginUser'])
   }
 }
 </script>
