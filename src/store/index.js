@@ -43,6 +43,9 @@ export default new Vuex.Store({
           await dispatch('getUsers', userName);
           commit('errorMessage', '');
           router.push({ name: 'dashboard'});
+        })
+        .catch(error => {
+          commit('errorMessage', error);
         });
       })
       .catch(error => {
@@ -85,6 +88,9 @@ export default new Vuex.Store({
           });
           commit('getUsers', users);
           resolve();
+        })
+        .catch(error => {
+          commit('errorMessage', error);
         });
       });
     },
