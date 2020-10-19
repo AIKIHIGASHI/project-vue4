@@ -61,6 +61,9 @@ export default new Vuex.Store({
       return new Promise(resolve => {
         firebase.auth().onAuthStateChanged(async user => {
           if (!user) {
+            if (router.currentRoute.name === 'dashboard') {
+              router.push({ name: 'login'});
+            }
             return;
           }
           commit('setLoginUser', user);
