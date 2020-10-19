@@ -25,6 +25,10 @@ export default new Vuex.Store({
       // ログイン中のuidでusersコレクション内からそのuidと一致するものを抽出し、ログイン中ユーザのdocをstate.loginUserStatusに入れる
       state.loginUserStatus = users.find(({ uid }) => uid === state.loginUser.uid);
     },
+    deleteLoginUser(state) {
+      state.loginUser = {};
+      state.loginUserStatus = {};
+    },
     errorMessage(state, error) {
       state.error = error;
     } 
@@ -103,6 +107,20 @@ export default new Vuex.Store({
       .catch(error => {
         commit('errorMessage', error);
       });
+    },
+    logout({ commit, dispatch }) {
+      firebase.auth().signOut()
+      .then(() => {
+        dispatch('deleteLoginUser');
+        commit('errorMessage', '');
+        router.push({ name: 'login'});
+      })
+      .catch(error => {
+        commit('errorMessage', error);
+      });
+    },
+    deleteLoginUser({ commit }) {
+      commit('deleteLoginUser');
     },
   }
 })
