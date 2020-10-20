@@ -11,12 +11,14 @@ export default new Vuex.Store({
     loginUser: {},
     loginUserStatus: {},
     users: [],
+    modal1: false,
     error: ''
   },
   getters: {
     loginUserName: state => state.loginUserStatus.name,
     loginUserWallet: state => state.loginUserStatus.wallet,
     users: state => state.users,
+    modal1: state => state.modal1,
     error: state => state.error
   },
   mutations: {
@@ -31,6 +33,9 @@ export default new Vuex.Store({
     deleteLoginUser(state) {
       state.loginUser = {};
       state.loginUserStatus = {};
+    },
+    toggleModal1(state) {
+      state.modal1 = !state.modal1
     },
     errorMessage(state, error) {
       state.error = error;
