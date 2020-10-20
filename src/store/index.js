@@ -10,11 +10,13 @@ export default new Vuex.Store({
   state: {
     loginUser: {},
     loginUserStatus: {},
+    users: [],
     error: ''
   },
   getters: {
     loginUserName: state => state.loginUserStatus.name,
     loginUserWallet: state => state.loginUserStatus.wallet,
+    users: state => state.users,
     error: state => state.error
   },
   mutations: {
@@ -22,6 +24,7 @@ export default new Vuex.Store({
       state.loginUser = user;
     },
     getUsers(state, users) {
+      state.users = users
       // ログイン中のuidでusersコレクション内からそのuidと一致するものを抽出し、ログイン中ユーザのdocをstate.loginUserStatusに入れる
       state.loginUserStatus = users.find(({ uid }) => uid === state.loginUser.uid);
     },
