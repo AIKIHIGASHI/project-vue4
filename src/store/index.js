@@ -10,11 +10,15 @@ export default new Vuex.Store({
   state: {
     loginUser: {},
     loginUserStatus: {},
+    users: [],
+    modal1: false,
     error: ''
   },
   getters: {
     loginUserName: state => state.loginUserStatus.name,
     loginUserWallet: state => state.loginUserStatus.wallet,
+    users: state => state.users,
+    modal1: state => state.modal1,
     error: state => state.error
   },
   mutations: {
@@ -22,12 +26,16 @@ export default new Vuex.Store({
       state.loginUser = user;
     },
     getUsers(state, users) {
+      state.users = users
       // ログイン中のuidでusersコレクション内からそのuidと一致するものを抽出し、ログイン中ユーザのdocをstate.loginUserStatusに入れる
       state.loginUserStatus = users.find(({ uid }) => uid === state.loginUser.uid);
     },
     deleteLoginUser(state) {
       state.loginUser = {};
       state.loginUserStatus = {};
+    },
+    toggleModal1(state) {
+      state.modal1 = !state.modal1
     },
     errorMessage(state, error) {
       state.error = error;
