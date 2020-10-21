@@ -43,11 +43,13 @@
         <div class="window">
           <div>あなたの残高：{{ loginUserWallet }}</div>
           <div>送る金額</div>
-          <br />
-          <div><input class="input is-info is-small" type="text" /></div>
+          <br>
+          <div class="has-text-danger is-size-7">{{ this.error }}</div>
+          <div><input class="input is-info is-small" type="text" :class="{ 'is-danger': error }" v-model="wallet2" /></div>
         </div>
         <div class="button-space">
-          <button class="button is-danger is-small is-size-6 " @click="toggleModal2()">close</button>
+          <button class="button is-danger is-small is-size-6 " v-if="!wallet2" @click="toggleModal2()">close</button>
+          <button class="button is-danger is-small is-size-6 " v-else @click="sendBtnPush()">送信</button>
         </div>
       </div>
     </div>
@@ -60,6 +62,7 @@ export default {
   data() {
     return {
       wallet1: null,
+      wallet2: null,
       displayName: '',
     };
   },
@@ -68,11 +71,18 @@ export default {
   },
   methods: {
     ...mapMutations(['toggleModal1', 'toggleModal2']),
-    ...mapActions(['logout']),
+    ...mapActions(['logout', 'sendWallet']),
     checkWallet(index) {
       this.toggleModal1();
       this.displayName = this.users[index].name + 'さんの残高';
       this.wallet1 = this.users[index].wallet;
+    },
+    async sendBtnPush() {
+      await this.sendWallet({
+        receiver: this.users,
+        wallet: this.wallet2,
+      });
+      this.wallet2 = null;
     },
   },
 };
