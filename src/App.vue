@@ -7,21 +7,21 @@
 </template>
 
 <script>
-import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
-import { mapActions} from 'vuex'
+import Header from './components/Header.vue';
+import Footer from './components/Footer.vue';
+import { mapActions } from 'vuex';
 export default {
   components: {
     Header,
-    Footer
+    Footer,
   },
   async created() {
     await this.setLoginUser();
   },
   methods: {
-    ...mapActions(['setLoginUser'])
-  }
-}
+    ...mapActions(['setLoginUser']),
+  },
+};
 </script>
 
 <style lang="scss">
@@ -34,5 +34,5 @@ export default {
       text-align: center;
     }
   }
-} 
+}
 </style>
