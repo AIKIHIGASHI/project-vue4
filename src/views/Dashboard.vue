@@ -1,11 +1,9 @@
 <template>
   <div>
     <div id="main">
-      <div class="has-text-danger">{{ error }}</div>
+      <div class="has-text-danger" v-if="!modal2">{{ error }}</div>
       <div class="info">
-        <div>
-          {{ loginUserName }}さんようこそ！
-        </div>
+        <div>{{ loginUserName }}さんようこそ！</div>
         <div>
           残高：{{ loginUserWallet }}
           <button class="button is-small is-info is-outlined" @click="logout()">ログアウト</button>
@@ -17,17 +15,17 @@
           <tr>
             <th class="user">ユーザ名</th>
           </tr>
-        </thead >
+        </thead>
         <tbody v-for="(user, index) in users" :key="user.id">
-          <tr >
+          <tr>
             <td>{{ user.name }}</td>
             <td><button class="button is-success is-small" @click="checkWallet(index)">walletをみる</button></td>
-            <td><button class="button is-success is-small">送る</button></td>
+            <td><button class="button is-success is-small" @click="toggleModal2(index)">送る</button></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="modal" :class="{'is-active': modal1}">
+    <div class="modal" :class="{ 'is-active': modal1 }">
       <div class="modal-background"></div>
       <div class="modal-content">
         <div class="window">
@@ -39,31 +37,55 @@
         </div>
       </div>
     </div>
+    <div class="modal" :class="{ 'is-active': modal2 }">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="window">
+          <div>あなたの残高：{{ loginUserWallet }}</div>
+          <div>送る金額</div>
+          <br>
+          <div class="has-text-danger is-size-7">{{ this.error }}</div>
+          <div><input class="input is-info is-small" type="text" :class="{ 'is-danger': error }" v-model="wallet2" /></div>
+        </div>
+        <div class="button-space">
+          <button class="button is-danger is-small is-size-6 " v-if="!wallet2" @click="toggleModal2()">close</button>
+          <button class="button is-danger is-small is-size-6 " v-else @click="sendBtnPush()">送信</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 export default {
   data() {
     return {
       wallet1: null,
-      displayName: ''
-    }
+      wallet2: null,
+      displayName: '',
+    };
   },
   computed: {
-    ...mapGetters(['loginUserName', 'loginUserWallet', 'users', 'modal1', 'error']),
+    ...mapGetters(['loginUserName', 'loginUserWallet', 'users', 'modal1', 'modal2', 'error']),
   },
   methods: {
-    ...mapMutations(['toggleModal1']),
-    ...mapActions(['logout']),
-    checkWallet(index) { 
+    ...mapMutations(['toggleModal1', 'toggleModal2']),
+    ...mapActions(['logout', 'sendWallet']),
+    checkWallet(index) {
       this.toggleModal1();
       this.displayName = this.users[index].name + 'さんの残高';
       this.wallet1 = this.users[index].wallet;
     },
-  }
-}
+    async sendBtnPush() {
+      await this.sendWallet({
+        receiver: this.users,
+        wallet: this.wallet2,
+      });
+      this.wallet2 = null;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -78,8 +100,8 @@ export default {
   text-align: center;
 }
 .is-success {
-margin: 1px 2px;
-font-weight: bold;
+  margin: 1px 2px;
+  font-weight: bold;
 }
 .window {
   width: 200px;
