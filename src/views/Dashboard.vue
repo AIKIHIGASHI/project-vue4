@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="main">
-      <div class="has-text-danger">{{ error }}</div>
+      <div class="has-text-danger" v-if="!modal2">{{ error }}</div>
       <div class="info">
         <div>{{ loginUserName }}さんようこそ！</div>
         <div>
