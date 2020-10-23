@@ -127,7 +127,8 @@ export default new Vuex.Store({
     },
     sendWallet({ getters, commit, dispatch }, { receiver, wallet }) {
       const db = firebase.firestore();
-      const collection = db.collection('users');
+      const senderRef = db.collection('users').doc(getters.loginUid);
+      const receiverRef = db.collection('users').doc(receiver[getters.receiverIndex].uid);
       if (wallet.match(/[^0-9]+/)) {
         commit('errorMessage', '半角数字にて入力してください');
         return;
@@ -137,13 +138,25 @@ export default new Vuex.Store({
       }
       commit('toggleModal2', getters.receiverIndex);
       return new Promise(resolve => {
-        collection
-          .doc(getters.loginUid)
-          .update({ wallet: getters.loginUserWallet - Number(wallet) })
+        db.runTransaction(transaction => {
+          return transaction.get(senderRef)
+            .then(doc => {
+              transaction.update(senderRef, { wallet: doc.data().wallet - Number(wallet) });
+            })
+            .catch(error => {
+              commit('errorMessage', error);
+            });
+        })
           .then(() => {
-            collection
-              .doc(receiver[getters.receiverIndex].uid)
-              .update({ wallet: receiver[getters.receiverIndex].wallet + Number(wallet) })
+            db.runTransaction(transaction => {
+              return transaction.get(receiverRef)
+                .then(doc => {
+                  transaction.update(receiverRef, { wallet: doc.data().wallet + Number(wallet) });
+                })
+                .catch(error => {
+                  commit('errorMessage', error);
+                });
+            })
               .then(() => {
                 commit('errorMessage', '');
                 dispatch('getUsers');
